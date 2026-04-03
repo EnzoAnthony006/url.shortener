@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    container_name: url-shortener-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/url_shortener?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 241819vi
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SECURITY_CONFIG_KEY: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      SECURITY_CONFIG_EXPIRATION: 86400000
+      APP_BASE_URL: http://localhost:8080
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.2
+    container_name: url-shortener-redis
+    ports:
+      - "6379:6379"
